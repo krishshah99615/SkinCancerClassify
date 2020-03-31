@@ -1,0 +1,66 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<center>
+    <form action="{% url 'home' %}" method="post" enctype="multipart/form-data" class="mt-5">
+        {% csrf_token %}
+        <div class="form-group">
+            {% if isup %}
+
+            <img src="{{imgurl}}" alt="Avatar" style="height:200px;weight:100px;">
+
+            {% else %}
+
+            <img src="{% static 'photo.png' %}" alt="Avatar" style="height:100px;weight:100px;">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {% if form and not isup %}
+            {{form.as_p}}
+            <label for="upload">Upload Image Here</label><br>
+            <button type="submit" class="btn btn-danger">Upload</button>
+            {% endif %}
+        </div>
+
+
+    </form>
+
+
+    {% if isup %}
+    <form action="{% url 'predict' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-warning mt-3">Predict</button>
+    </form>
+
+
+    </form>
+    {% if i %}
+    <ul class="list-group mt-5">
+
+
+
+        <li class="list-group-item  ">
+            <h3>Result Analysis</h3>
+        </li>
+        <li class="list-group-item">
+            <div class="jumbotron">
+                <h1 class="display-4">Hello Patient!</h1>
+                <p class="lead">You Have Been Diagnosed with {{n}}</p>
+                <hr class="my-4">
+                <p class="lead">{{i}} </p>
+                <hr class="my-4">
+                <p class="lead">Symtoms: <br>{{s}}</p>
+                <hr class="my-4">
+
+                <a class="btn btn-primary btn-lg" href="{% url 'home' %}" role="button">Go Back </a>
+            </div>
+
+        </li>
+
+
+
+    </ul>
+    {% endif %}
+    {% endif %}
+</center>
+{% endblock %}
